@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🌱 Gincana Sustentável - Salve o Planeta!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Poppins', 'Roboto', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0b6623 0%, #1e8f3e 50%, #2ecc71 100%);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Container principal */
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 48px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Header com pontuação */
+        .game-header {
+            background: #1e4d2e;
+            padding: 20px 24px;
+            color: white;
+            text-align: center;
+        }
+
+        .game-header h1 {
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .score-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .score-card, .streak-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 18px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .progress-area {
+            margin-top: 15px;
+        }
+
+        .progress-bar-bg {
+            background: #2c3e2f;
+            border-radius: 30px;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #f1c40f, #2ecc71);
+            border-radius: 30px;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 8px #f1c40f;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            margin-top: 6px;
+            text-align: right;
+        }
