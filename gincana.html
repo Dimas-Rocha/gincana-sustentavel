@@ -324,3 +324,16 @@
     let gameActive = true;
     let waitingAnswer = true;       // se já respondeu, aguarda next
     let selectedOptionIndex = null;
+    
+    // Elementos DOM
+    const questionEl = document.getElementById("questionText");
+    const optionsContainer = document.getElementById("optionsContainer");
+    const feedbackMsgDiv = document.getElementById("feedbackMsg");
+    const nextBtn = document.getElementById("nextBtn");
+    const restartBtn = document.getElementById("restartGameBtn");
+    const scoreSpan = document.getElementById("scoreValue");
+    const streakSpan = document.getElementById("streakValue");
+    const progressFill = document.getElementById("progressFill");
+    const progressTextSpan = document.getElementById("progressText");
+    const tipTextSpan = document.getElementById("tipText");
+
