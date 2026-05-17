@@ -314,3 +314,13 @@
         "🍌 Cascas de frutas viram adubo: faça compostagem caseira!",
         "📄 Utilize os dois lados do papel e opte por papel reciclado."
     ];
+ // Estado do jogo
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let streak = 0;
+    let multiplierActive = 0;      // contador p/ multiplicador de 10->20 a cada 3 seguidos
+    let consecutiveCorrect = 0;
+    let mistakesInRow = 0;
+    let gameActive = true;
+    let waitingAnswer = true;       // se já respondeu, aguarda next
+    let selectedOptionIndex = null;
