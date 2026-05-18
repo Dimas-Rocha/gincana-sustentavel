@@ -479,3 +479,14 @@
                 return;
             }
         }
+ updateUI();
+
+        // ao atingir 30 pontos múltiplo (bônus extra)
+        if (isCorrect && score % 30 === 0 && score > 0) {
+            feedbackMsgDiv.innerHTML += "<br>🎁 BÔNUS: 🌱 Você plantou uma árvore virtual! Continue assim 🎁";
+        }
+
+        disableOptions(true);
+        nextBtn.style.display = "block";
+        if (!gameActive) nextBtn.style.display = "none";
+    }
