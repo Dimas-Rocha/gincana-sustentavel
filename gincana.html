@@ -337,3 +337,145 @@
     const progressTextSpan = document.getElementById("progressText");
     const tipTextSpan = document.getElementById("tipText");
 
+ // Ranking localStorage
+    let ranking = [];
+
+    function loadRanking() {
+        const stored = localStorage.getItem("sustentRanking");
+        if (stored) {
+            ranking = JSON.parse(stored);
+        } else {
+            ranking = [];
+        }
+        updateRankingUI();
+    }
+
+    function saveRanking() {
+        ranking.sort((a,b) => b.score - a.score);
+        if (ranking.length > 3) ranking = ranking.slice(0,3);
+        localStorage.setItem("sustentRanking", JSON.stringify(ranking));
+        updateRankingUI();
+    }
+
+    function addScoreToRanking(finalScore) {
+        let playerName = "🌱 Herói";
+        ranking.push({ name: playerName, score: finalScore });
+        saveRanking();
+    }
+
+    function updateRankingUI() {
+        const rankDiv = document.getElementById("rankingList");
+        if (!ranking.length) {
+            rankDiv.innerHTML = "💚 Nenhuma pontuação ainda. Jogue e brilhe!";
+            return;
+        }
+        let html = "";
+        ranking.forEach((r, idx) => {
+            html += `<div>${idx+1}º ${r.name} ${r.score}pts</div>`;
+        });
+        rankDiv.innerHTML = html;
+    }
+
+    function updateUI() {
+        scoreSpan.innerText = score;
+        streakSpan.innerText = consecutiveCorrect;
+        let percentage = Math.min(100, (score / 100) * 100);
+        progressFill.style.width = percentage + "%";
+        progressTextSpan.innerText = `${score}/100 pts`;
+        if (score >= 100 && gameActive) {
+            gameWon();
+        }
+    }
+
+    function showRandomTip() {
+        const randomTip = tips[Math.floor(Math.random() * tips.length)];
+        tipTextSpan.innerText = randomTip;
+    }
+
+    function gameWon() {
+        if (!gameActive) return;
+        gameActive = false;
+        waitingAnswer = true;
+        feedbackMsgDiv.innerHTML = "🏆✨ PARABÉNS! Você salvou o planeta com atitudes sustentáveis! ✨🏆<br>Clique em RECOMEÇAR para outra jornada.";
+        nextBtn.style.display = "none";
+        restartBtn.style.display = "block";
+        addScoreToRanking(score);
+        disableOptions(true);
+    }
+
+    function gameOverByMistakes() {
+        if (!gameActive) return;
+        gameActive = false;
+        waitingAnswer = true;
+        feedbackMsgDiv.innerHTML = "⚠️ GAME OVER! Muitos erros consecutivos. Reforce seus conhecimentos sustentáveis e tente novamente! ⚠️";
+        nextBtn.style.display = "none";
+        restartBtn.style.display = "block";
+        disableOptions(true);
+        addScoreToRanking(score);
+    }
+
+    function checkWinOnScore() {
+        if (score >= 100 && gameActive) {
+            gameWon();
+            return true;
+        }
+        return false;
+    }
+
+    function disableOptions(disable) {
+        const allOpts = document.querySelectorAll(".option-btn");
+        allOpts.forEach(btn => {
+            if (disable) btn.disabled = true;
+            else btn.disabled = false;
+        });
+    }
+
+    function evaluateAnswer(selectedIdx, correctIdx, btnElement, allBtns) {
+        if (!gameActive || !waitingAnswer) return;
+        waitingAnswer = false;
+
+        const isCorrect = (selectedIdx === correctIdx);
+        let pointGain = 0;
+        let message = "";
+
+        if (isCorrect) {
+            // Cálculo com multiplicador
+            consecutiveCorrect++;
+            mistakesInRow = 0;
+            let basePoints = 10;
+            if (consecutiveCorrect >= 3 && consecutiveCorrect % 3 === 0) {
+                basePoints = 20;
+                message = "🌟🔥 BÔNUS: Sequência de 3 acertos! +20 pontos! 🔥🌟";
+            } else {
+                message = "✅ Correto! +10 pontos sustentáveis! 🌿";
+            }
+            pointGain = basePoints;
+            score += pointGain;
+            // Verificar vitória automaticamente
+            if (score >= 100) {
+                updateUI();
+                if(!checkWinOnScore()){}
+                else return;
+            }
+            feedbackMsgDiv.innerHTML = message + ` Agora você tem ${score} pontos.`;
+            // destacar verde
+            btnElement.classList.add("correct-highlight");
+        } else {
+            // Erro!
+            consecutiveCorrect = 0;
+            mistakesInRow++;
+            pointGain = -5;
+            let newScore = score + pointGain;
+            if (newScore < 0) newScore = 0;
+            score = newScore;
+            const correctAnswerText = questions[currentQuestionIndex].options[correctIdx];
+            feedbackMsgDiv.innerHTML = `❌ Errado! A resposta correta é: "${correctAnswerText}". Estude e tente novamente! -5 pontos.`;
+            btnElement.classList.add("wrong-highlight");
+            // destaca botão correto também?
+            allBtns[correctIdx].classList.add("correct-highlight");
+            if (mistakesInRow >= 5 && gameActive) {
+                updateUI();
+                gameOverByMistakes();
+                return;
+            }
+        }
