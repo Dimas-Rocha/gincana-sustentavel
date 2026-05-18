@@ -490,3 +490,23 @@
         nextBtn.style.display = "block";
         if (!gameActive) nextBtn.style.display = "none";
     }
+     function loadQuestion() {
+        if (!gameActive) return;
+        waitingAnswer = true;
+        selectedOptionIndex = null;
+        const qData = questions[currentQuestionIndex];
+        questionEl.innerText = qData.text;
+        optionsContainer.innerHTML = "";
+        // gerar botoes
+        qData.options.forEach((opt, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.innerText = `${String.fromCharCode(65+idx)}. ${opt}`;
+            btn.setAttribute("data-opt-idx", idx);
+            btn.addEventListener("click", (e) => {
+                if (!waitingAnswer || !gameActive) return;
+                const allCurrentBtns = document.querySelectorAll(".option-btn");
+                evaluateAnswer(idx, qData.correct, btn, allCurrentBtns);
+            });
+            optionsContainer.appendChild(btn);
+        });
