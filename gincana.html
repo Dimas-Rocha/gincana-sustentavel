@@ -510,3 +510,24 @@
             });
             optionsContainer.appendChild(btn);
         });
+
+        
+         // Apaga destaque anterior no feedback se não for mensagem de Game over
+        if (!feedbackMsgDiv.innerHTML.includes("GAME OVER") && !feedbackMsgDiv.innerHTML.includes("PARABÉNS"))
+            feedbackMsgDiv.innerHTML = "🌎 Escolha uma alternativa...";
+        nextBtn.style.display = "none";
+        disableOptions(false);
+        showRandomTip();
+    }
+
+    function nextQuestion() {
+        if (!gameActive) return;
+        if (waitingAnswer === false || nextBtn.style.display === "block") {
+            // avança
+            currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+            loadQuestion();
+        } else {
+            // se não respondeu ainda, não avança
+            feedbackMsgDiv.innerHTML = "💚 Responda a pergunta atual antes de continuar!";
+        }
+    }
