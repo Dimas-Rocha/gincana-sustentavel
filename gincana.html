@@ -554,7 +554,22 @@
         restartGame();
     });
 
+ // Inicialização
+    function init() {
+        loadRanking();
+        score = 0;
+        consecutiveCorrect = 0;
+        mistakesInRow = 0;
+        gameActive = true;
+        waitingAnswer = true;
+        currentQuestionIndex = 0;
+        updateUI();
+        loadQuestion();
+        restartBtn.style.display = "none";
+        nextBtn.style.display = "none";
+    }
 
+    init();
 
 
 
