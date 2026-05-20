@@ -511,7 +511,7 @@
             optionsContainer.appendChild(btn);
         });
 
-        
+
          // Apaga destaque anterior no feedback se não for mensagem de Game over
         if (!feedbackMsgDiv.innerHTML.includes("GAME OVER") && !feedbackMsgDiv.innerHTML.includes("PARABÉNS"))
             feedbackMsgDiv.innerHTML = "🌎 Escolha uma alternativa...";
@@ -531,3 +531,33 @@
             feedbackMsgDiv.innerHTML = "💚 Responda a pergunta atual antes de continuar!";
         }
     }
+
+ function restartGame(){
+        score = 0;
+        consecutiveCorrect = 0;
+        mistakesInRow = 0;
+        gameActive = true;
+        waitingAnswer = true;
+        currentQuestionIndex = 0;
+        updateUI();
+        loadQuestion();
+        nextBtn.style.display = "none";
+        restartBtn.style.display = "none";
+        feedbackMsgDiv.innerHTML = "🌱 Nova gincana! Vamos salvar o planeta. Boa sorte!";
+        disableOptions(false);
+        // não reseta ranking, apenas começa novo jogo
+    }
+
+    // Eventos
+    nextBtn.addEventListener("click", nextQuestion);
+    restartBtn.addEventListener("click", () => {
+        restartGame();
+    });
+
+
+
+
+
+</script>
+</body>
+</html>
